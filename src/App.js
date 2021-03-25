@@ -1,41 +1,67 @@
 import React from "react";
 import { Button } from "antd";
+import proptypes from "prop-types";
+import ThemedButton from "ThemedButton";
 import "App.css";
 
-const actions = {
-  init(initialValue) {
-    return { value: initialValue };
-  },
-  increment(prevState) {
-    return { value: prevState.value + 1 };
-  },
-  decrement(prevState) {
-    return { value: prevState.value - 1 };
-  },
-};
+class PostDetail extends React.Component {
+  static propTypes = {
+    postId: proptypes.number.isRequired,
+  };
+  state = {
+    PostDetail: null,
+  };
+  componentDidMount() {
+    const { postId } = this.props;
+    this.requestPost([postId]);
+  }
 
-class Counter1 extends React.Component {
-  state = actions.init(this.props.initialValue);
+  componentDidUpdate(prevProps) {
+    const { postId } = this.props;
+    if (postId !== prevProps.postId) {
+      this.requestPost(postId);
+    }
+  }
+
+  requestPost(postId) {
+    console.log(`request post #${postId}`);
+    // axios (http client) => this.setState
+    setTimeout(() => {
+      this.setState({
+        PostDetail: `로딩된 post #${postId}`,
+      });
+    }, 3000);
+  }
 
   render() {
-    const { value } = this.state;
+    const { postId } = this.props;
+    const { PostDetail } = this.state;
     return (
       <div>
-        Counter1: {value}
-        <Button onClick={() => this.setState(actions.increment)}>+1</Button>
-        <Button onClick={() => this.setState(actions.decrement)}>-1</Button>
+        포스팅 #{postId}
+        <hr />
+        {!PostDetail && "로딩 중 ..."}
+        {PostDetail}
       </div>
-    ); // jsx 문법
+    );
   }
 }
 
-function App() {
-  const fruits = ["바나나", "사과", "딸기"];
-  return (
-    <div>
-      <Counter1 initialValue={10} />
-    </div>
-  );
+class App extends React.Component {
+  state = {
+    postId: 10,
+  };
+  render() {
+    return (
+      <div>
+        <ThemedButton theme="success" label="Say hello" />
+        <PostDetail />
+        <button onClick={() => this.setState({ postId: 20 })}>
+          postId 변경
+        </button>
+      </div>
+    );
+  }
 }
 
 export default App;
