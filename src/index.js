@@ -9,12 +9,13 @@ import App5 from "./App5";
 import App6 from "./App6";
 import App7 from "./App7";
 import App8 from "./App8";
+import App9 from "./App9";
 import TodoList from "./TodoList";
 import EpisodeList from "./EpisodeList";
 
 import reportWebVitals from "./reportWebVitals";
 
-ReactDOM.render(<App8 />, document.getElementById("root"));
+ReactDOM.render(<App9 />, document.getElementById("root"));
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
